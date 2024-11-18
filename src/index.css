@@ -1,0 +1,110 @@
+/* Common */
+*
+{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body
+{
+  background-color: #333;
+  color: lightgray;
+}
+
+
+img
+{
+  max-width: 100%;
+}
+
+/* Utilities */
+.container
+{
+  margin: auto;
+  width: 90%;
+  max-width: 1200px;
+}
+
+.btn
+{
+  padding: .5em.75em;
+  border: none;
+  border-radius: 3px;
+  font-size: 12px;
+  text-decoration: none;
+
+  &:hover
+  {
+    background-color: #333;
+    color: lightgray;
+  }
+}
+
+/* Header */
+header
+{
+  background-color: black;
+  color: white;
+  padding: 1rem 2rem;
+
+  .container
+  {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+}
+
+/* Main */
+main
+{
+  min-height: calc(100vh - 64px);
+  padding: 2rem 0;
+}
+
+
+.pizza-card
+{
+
+  display: flex;
+  background-color: black;
+  font-family: Arial, Helvetica, sans-serif;
+  margin-bottom: 1rem;
+
+  & img
+  {
+    width: 200px;
+    aspect-ratio: 1;
+    object-fit: cover;
+  }
+
+  .details
+  {
+    padding: 1rem;
+
+    p
+    {
+      padding: 1rem 0;
+    }
+
+    .price
+    {
+      margin-bottom: 1rem;
+    }
+
+  }
+
+
+}
+
+
+/* Footer */
+footer
+{
+  background-color: black;
+  padding: 2rem 0;
+
+
+}
