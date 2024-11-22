@@ -1,38 +1,94 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PizzaCard from './PizzaCard/PizzaCard';
-import pizze from '../data/pizze.js'
+import Jumbotron from './Jumbotron';
+
+//import pizze from '../data/pizze.js'
 
 const initialFormData = {
   name: '',
   description: '',
   price: 0,
   image: '',
-  available: false
+  is_available: false
 }
 
 export default function AppMain() {
 
   const [formData, setFormData] = useState(initialFormData)
-  const [menu, setMenu] = useState(pizze)
+  const [menu, setMenu] = useState([])
   const pageTitle = 'Pizzeria Menu';
   const pageDescription = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate ipsum dignissimos rem saepe repellendus nulla blanditiis vel, debitis nihil deleniti, dolorum quaerat nam veritatis dolor ratione reprehenderit ab? Alias, necessitatibus?';
 
 
+  function fetchData(url = 'http://localhost:3001/pizze') {
+    fetch(url)
+      .then(res => res.json())
+      .then(response => {
+        console.log(response.data);
+        const data = response.data
+        setMenu(data)
+      })
+  }
+
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+
+
   //console.log(pizze);
+
+
+  function handleDeleteClick(e) {
+    e.preventDefault()
+    console.log(e.target.getAttribute('data-id'));
+
+    const id = e.target.getAttribute('data-id')
+
+    fetch('http://localhost:3001/pizze/' + id, {
+
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(res => res.json())
+      .then(response => {
+        console.log(response);
+        setMenu(response.data)
+
+      })
+  }
 
   function handleFormSubmit(e) {
     e.preventDefault()
-    console.log('Form sent', formData);
+    //console.log('Form sent', formData);
     const newItem = {
       id: Date.now(),
       ...formData
     }
     console.log(newItem);
 
-    setMenu([
+    // make a post request to the api serve and pass over the newItem object to the setMenu state setter
+    fetch('http://localhost:3001/pizze', {
+      method: 'POST',
+      body: JSON.stringify(newItem),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(res => res.json())
+      .then(response => {
+        console.log('Success:', response)
+        setMenu(response.data)
+
+      })
+      .catch(error => console.error('Error:', error));
+
+
+    /* setMenu([
       newItem,
       ...menu
-    ])
+    ]) */
 
     setFormData(initialFormData)
   }
@@ -52,20 +108,12 @@ export default function AppMain() {
   return (
     <main>
       {/* Jumbotron */}
-      <div className="p-5 mb-4 bg-dark">
-        <div className="container-fluid py-5">
-          <h1 className="display-5 fw-bold">{pageTitle}</h1>
-          <p className="col-md-8 fs-4">
-            {pageDescription}
-          </p>
-          <button className="btn btn-primary btn-lg" type="button" popovertarget="off-canvas-form">
-            <i className="bi bi-plus"></i> Add
-          </button>
-        </div>
-      </div>
+      <Jumbotron pageTitle={pageTitle} pageDescription={pageDescription} />
 
 
       {/* Form Offcanvas */}
+
+      {/*  <AddPizzaOffCanvas  />  */}
       <div id="off-canvas-form" popover="true" className='bg-dark p-3 border-0 shadow-lg text-white' style={{ minHeight: "100dvh" }}>
         <div className="d-flex justify-content-between align-items-center">
           <h3>Add a new Pizza</h3>
@@ -146,11 +194,11 @@ export default function AppMain() {
 
           <div className="form-check mb-3">
             <input
-              id="available"
-              name='available'
+              id="is_available"
+              name='is_available'
               type="checkbox"
               className="form-check-input"
-              value={formData.available}
+              value={formData.is_available}
               onChange={handleFormField}
 
             />
@@ -170,8 +218,6 @@ export default function AppMain() {
         </form>
 
 
-
-
       </div>
 
 
@@ -180,27 +226,8 @@ export default function AppMain() {
         <section className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
           {/* Add pizza cards here  */}
 
-          {/*           {pizze.map(pizza => <PizzaCard key={pizza.id} name={pizza.name} image={pizza.image} description={pizza.description} price={pizza.price} />)} */}
 
-
-          {menu.map(pizza => <PizzaCard key={pizza.id} data={pizza}> <p>{pizza.available ? 'Available' : 'Not Available'}</p> </PizzaCard>)}
-
-
-
-
-          {/*  <PizzaCard name="Margherita Veg" image="/images/1.jpg" description="Pizza margherita vegana con mozzarella" price="7" />
-
-
-          <PizzaCard name="Diavola Veg" image="/images/2.webp" description="Pizza diavola vegana" price="8" /> */}
-
-
-
-          {/*           <PizzaCard data={pizze[0]}>
-
-            <p>Fabio was here</p>
-
-          </PizzaCard> */}
-
+          {menu.map(pizza => <PizzaCard key={pizza.id} data={pizza} handleDeleteClick={handleDeleteClick}> <p>{pizza.is_available ? 'Available' : 'Not Available'}</p> </PizzaCard>)}
 
 
         </section>
