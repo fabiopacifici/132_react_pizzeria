@@ -52,9 +52,26 @@ header
   {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     gap: 1rem;
   }
+
+  nav
+  {
+    a
+    {
+      text-decoration: none;
+      color: white;
+      padding: 0.75rem 1.25rem;
+
+      &.active
+      {
+        font-weight: bolder;
+        border-bottom: 4px solid cyan;
+      }
+    }
+  }
+
 }
 
 /* Main */

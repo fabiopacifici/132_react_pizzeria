@@ -1,16 +1,22 @@
-export default function Jumbotron({ pageTitle, pageDescription }) {
+export default function Jumbotron({ title, description, bgImageUrl = '', children }) {
 
+
+  /* 
+  
+      background-size: cover;
+      background-blend-mode: color;
+      background-color: #000000a6 !important;
+  
+  */
 
   return (
-    <div className="p-5 mb-4 bg-dark">
+    <div className="p-5 mb-4" style={{ backgroundImage: `url(${bgImageUrl})`, backgroundSize: 'cover', backgroundColor: '#000000a6', backgroundBlendMode: 'color' }}>
       <div className="container-fluid py-5">
-        <h1 className="display-5 fw-bold">{pageTitle}</h1>
+        <h1 className="display-5 fw-bold">{title}</h1>
         <p className="col-md-8 fs-4">
-          {pageDescription}
+          {description}
         </p>
-        <button className="btn btn-primary btn-lg" type="button" popovertarget="off-canvas-form">
-          <i className="bi bi-plus"></i> Add
-        </button>
+        {children}
       </div>
     </div>
   )

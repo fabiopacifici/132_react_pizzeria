@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import Button from '../Button/Button';
 export default function PizzaCard({ data, handleDeleteClick, children }) {
 
@@ -17,14 +18,17 @@ export default function PizzaCard({ data, handleDeleteClick, children }) {
           </button>
 
         </form>
-        <img width={300} height={240} className='object-fit-cover card-img-top' src={'http://localhost:3001/' + data.image} alt="Pizza" />
+
+        <Link to={`/pizze/${data.id}`}>
+          <img width={300} height={240} className='object-fit-cover card-img-top' src={'http://localhost:3001/' + data.image} alt="Pizza" />
+        </Link>
+
         <div className="card-body">
           <h3>{data.name}</h3>
           <p>
             {data.description}
           </p>
           <div className='price'>€ {data.price}</div>
-
 
           {data.is_available && <Button>📌Buy now </Button>}
 

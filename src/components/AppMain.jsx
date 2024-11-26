@@ -3,22 +3,23 @@ import PizzaCard from './PizzaCard/PizzaCard';
 import Jumbotron from './Jumbotron';
 import AddPizzaOffCanvas from './AddPizzaOffCanvas';
 import PizzaList from './PizzaList';
+import { Link } from 'react-router-dom';
 
 
 //import { useEffect }
 //import pizze from '../data/pizze.js'
 
-const initialFormData = {
+/*const initialFormData = {
   name: '',
   description: '',
   price: 0,
   image: '',
   is_available: false
-}
+}  ✅ <-- need this */
 
 export default function AppMain() {
 
-  const [formData, setFormData] = useState(initialFormData)
+  /*const [formData, setFormData] = useState(initialFormData)  ✅ <-- need this */
   const [menu, setMenu] = useState([])
   const pageTitle = 'Pizzeria Menu';
   const pageDescription = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate ipsum dignissimos rem saepe repellendus nulla blanditiis vel, debitis nihil deleniti, dolorum quaerat nam veritatis dolor ratione reprehenderit ab? Alias, necessitatibus?';
@@ -63,6 +64,8 @@ export default function AppMain() {
       })
   }
 
+
+  /* Need this ✅ 
   function handleFormSubmit(e) {
     e.preventDefault()
     //console.log('Form sent', formData);
@@ -89,33 +92,41 @@ export default function AppMain() {
       .catch(error => console.error('Error:', error));
 
 
-    /* setMenu([
-      newItem,
-      ...menu
-    ]) */
+   
+  setFormData(initialFormData)
+  }*/
 
-    setFormData(initialFormData)
-  }
-
+  /* Need this ✅ 
   function handleFormField(e) {
     //console.log(e.target);
-
+  
     const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
-
+  
     setFormData({
       ...formData,
       [e.target.name]: value
     })
-  }
+  }*/
 
 
   return (
     <main>
       {/* Jumbotron */}
-      <Jumbotron pageTitle={pageTitle} pageDescription={pageDescription} />
+      <Jumbotron title={pageTitle} description={pageDescription}>
 
-      {/* Form Offcanvas */}
-      <AddPizzaOffCanvas handleFormSubmit={handleFormSubmit} formData={formData} handleFormField={handleFormField} />
+        {/* 
+         This button can trigger the offcanvas component (but doesn't work 100%)
+        <button className="btn btn-primary btn-lg" type="button" popovertarget="off-canvas-form">
+          <i className="bi bi-plus"></i> Add
+        </button> */}
+        <Link to='/pizze/create' className="btn btn-primary btn-lg">
+          <i className="bi bi-plus"></i> Add
+        </Link>
+      </Jumbotron>
+
+      {/* Form Offcanvas: with props drilling
+      <AddPizzaOffCanvas handleFormSubmit={handleFormSubmit} formData={formData} handleFormField={handleFormField} />*/}
+      {/* <AddPizzaOffCanvas /> */}
 
 
       <PizzaList>
